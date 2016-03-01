@@ -16,10 +16,32 @@ runtests: test
 	
 # nethogs_testsum
 
-CFLAGS?=-Wall -Wextra
-CXXFLAGS?=-Wall -Wextra
+<<<<<<< HEAD
+ifeq ($(DEBUG),1)
+  $(info debug mode)
+  CFLAGS?=-Wall -Wextra -O0 -g
+  CXXFLAGS?=-Wall -Wextra -O0 -g --std=c++11
+else
+  $(info release mode)
+  CFLAGS?=-Wall -Wextra -O3
+  CXXFLAGS?=-Wall -Wextra -O3 --std=c++11
+endif
 
-OBJS=packet.o connection.o process.o refresh.o decpcap.o cui.o inode2prog.o conninode.o devices.o
+=======
+CFLAGS?=-Wall -Wextra -O0 --std=c11
+CXXFLAGS?=-Wall -Wextra -O0 --std=c++11
+>>>>>>> a1b5b38... Daemon mode - work in progress
+
+OBJS=packet.o \
+	 connection.o \
+	 process.o \
+	 refresh.o \
+	 decpcap.o \
+	 cui.o \
+	 inode2prog.o \
+	 conninode.o \
+	 devices.o \
+	 ipc_server.o
 
 NCURSES_LIBS?=-lncurses
 
@@ -50,7 +72,7 @@ test: test.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) test.cpp -o test -lpcap -lm ${NCURSES_LIBS} -DVERSION=\"$(VERSION)\" -DSUBVERSION=\"$(SUBVERSION)\" -DMINORVERSION=\"$(MINORVERSION)\"
 
 nethogs: main.cpp nethogs.cpp $(OBJS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) main.cpp $(OBJS) -o nethogs -lpcap -lm ${NCURSES_LIBS} -DVERSION=\"$(VERSION)\" -DSUBVERSION=\"$(SUBVERSION)\" -DMINORVERSION=\"$(MINORVERSION)\"
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) main.cpp $(OBJS) -o nethogs -lpcap -lpthread -lm ${NCURSES_LIBS} -DVERSION=\"$(VERSION)\" -DSUBVERSION=\"$(SUBVERSION)\" -DMINORVERSION=\"$(MINORVERSION)\"
 nethogs_testsum: nethogs_testsum.cpp $(OBJS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) nethogs_testsum.cpp $(OBJS) -o nethogs_testsum -lpcap -lm ${NCURSES_LIBS} -DVERSION=\"$(VERSION)\" -DSUBVERSION=\"$(SUBVERSION)\" -DMINORVERSION=\"$(MINORVERSION)\"
 
@@ -73,6 +95,8 @@ inode2prog.o: inode2prog.cpp inode2prog.h nethogs.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c inode2prog.cpp
 conninode.o: conninode.cpp nethogs.h conninode.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c conninode.cpp
+ipc_server.o: ipc_server.cpp ipc_server.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ipc_server.cpp
 #devices.o: devices.cpp devices.h
 #	$(CXX) $(CXXFLAGS) -c devices.cpp
 cui.o: cui.cpp cui.h nethogs.h
