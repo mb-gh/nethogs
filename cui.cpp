@@ -32,7 +32,8 @@
 #include <ncurses.h>
 #include "nethogs.h"
 #include "process.h"
-
+#include "ipc_server.h"
+#include "line.h"
 
 std::string * caption;
 extern const char version[];
@@ -49,36 +50,6 @@ extern int viewMode;
 
 extern unsigned refreshlimit;
 extern unsigned refreshcount;
-
-#define PID_MAX 4194303
-
-class Line
-{
-public:
-	Line (const char * name, double n_recv_value, double n_sent_value, pid_t pid, uid_t uid, const char * n_devicename)
-	{
-		assert (pid >= 0);
-		assert (pid <= PID_MAX);
-		m_name = name;
-		sent_value = n_sent_value;
-		recv_value = n_recv_value;
-		devicename = n_devicename;
-		m_pid = pid;
-		m_uid = uid;
-		assert (m_pid >= 0);
-	}
-
-	void show (int row, unsigned int proglen);
-	void log ();
-
-	double sent_value;
-	double recv_value;
-private:
-	const char * m_name;
-	const char * devicename;
-	pid_t m_pid;
-	uid_t m_uid;
-};
 
 #include <sstream>
 
@@ -336,12 +307,16 @@ void gettotalb(Process * curproc, float * recvd, float * sent)
 }
 
 void show_trace(Line * lines[], int nproc) {
-	std::cout << "\nRefreshing:\n";
+	
+	//std::cout << "\nRefreshing:\n";
 
 	/* print them */
 	for (int i=0; i<nproc; i++)
 	{
-		lines[i]->log();
+		if( lines[i]->recv_value || lines[i]->sent_value )
+		{
+			lines[i]->log();
+		}
 		delete lines[i];
 	}
 
@@ -408,6 +383,11 @@ void show_ncurses(Line * lines[], int nproc) {
 	attroff(A_REVERSE);
 	mvprintw (totalrow+1, 0, "");
 	refresh();
+}
+
+void send_to_ipc_clients(Line * lines[], int nproc) 
+{
+	//TODO
 }
 
 // Display all processes and relevant network traffic using show function
@@ -513,6 +493,9 @@ void do_refresh()
 	/* sort the accumulated lines */
 	qsort (lines, nproc, sizeof(Line *), GreatestFirst);
 
+	if ( daemon_mode )
+		send_to_ipc_clients(lines, nproc);
+	
 	if (tracemode || DEBUG)
 		show_trace(lines, nproc);
 	else

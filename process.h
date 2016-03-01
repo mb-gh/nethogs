@@ -28,6 +28,7 @@
 #include "connection.h"
 
 extern bool tracemode;
+extern bool daemon_mode;
 extern bool bughuntmode;
 
 void check_all_procs ();

@@ -38,6 +38,7 @@
 #include <netinet/udp.h>
 
 #include "cui.h"
+#include "ipc_server.h"
 
 extern "C" {
 	#include "decpcap.h"
@@ -56,6 +57,7 @@ unsigned refreshlimit = 0;
 unsigned refreshcount = 0;
 unsigned processlimit = 0;
 bool tracemode = false;
+bool daemon_mode = false;
 bool bughuntmode = false;
 bool needrefresh = false;
 // sort on sent or received?
@@ -230,7 +232,9 @@ int process_ip6 (u_char * userdata, const dp_header * /* header */, const u_char
 void quit_cb (int /* i */)
 {
 	procclean();
-	if ((!tracemode) && (!DEBUG))
+	if( daemon_mode )
+		IPCServer::stop();
+	if ((!daemon_mode) && (!tracemode) && (!DEBUG))
 		exit_ui();
 	exit(0);
 }
