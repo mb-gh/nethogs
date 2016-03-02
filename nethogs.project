@@ -48,6 +48,7 @@
     <File Name="line.h"/>
     <File Name="ipc_server.cpp"/>
     <File Name="ipc_server.h"/>
+    <File Name="ipc_structs.h"/>
   </VirtualDirectory>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>
@@ -67,11 +68,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-<<<<<<< HEAD
       <General OutputFile="" IntermediateDirectory="./Debug" Command="$(ProjectPath)/nethogs" CommandArguments="-tD" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(ProjectPath)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
-=======
-      <General OutputFile="" IntermediateDirectory="./Debug" Command="./nethogs" CommandArguments="-tD" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
->>>>>>> a1b5b38... Daemon mode - work in progress
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
@@ -83,15 +80,9 @@
       <PreBuild/>
       <PostBuild/>
       <CustomBuild Enabled="yes">
-<<<<<<< HEAD
         <RebuildCommand>make clean DEBUG=1 &amp;&amp;  make DEBUG=1</RebuildCommand>
         <CleanCommand>make clean</CleanCommand>
         <BuildCommand>make DEBUG=1</BuildCommand>
-=======
-        <RebuildCommand/>
-        <CleanCommand>make clean</CleanCommand>
-        <BuildCommand>make</BuildCommand>
->>>>>>> a1b5b38... Daemon mode - work in progress
         <PreprocessFileCommand/>
         <SingleFileCommand/>
         <MakefileGenerationCommand/>

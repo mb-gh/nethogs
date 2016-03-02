@@ -1,6 +1,7 @@
 #ifndef _NETHOGS_IPC_SERVER_H_
 #define _NETHOGS_IPC_SERVER_H_
 
+#include "ipc_structs.h"
 #include "line.h"
 
 class IPCServer

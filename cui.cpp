@@ -51,6 +51,18 @@ extern int viewMode;
 extern unsigned refreshlimit;
 extern unsigned refreshcount;
 
+const int COLUMN_WIDTH_PID =  7;
+const int COLUMN_WIDTH_USER =  8;
+const int COLUMN_WIDTH_DEV =  5;
+const int COLUMN_WIDTH_SENT = 11;
+const int COLUMN_WIDTH_RECEIVED = 11;
+const int COLUMN_WIDTH_UNIT = 6;
+
+const char * COLUMN_FORMAT_PID = "%7d";
+const char * COLUMN_FORMAT_SENT = "%11.3f";
+const char * COLUMN_FORMAT_RECEIVED = "%11.3f";
+
+
 #include <sstream>
 
 std::string itoa(int i)

@@ -16,7 +16,6 @@ runtests: test
 	
 # nethogs_testsum
 
-<<<<<<< HEAD
 ifeq ($(DEBUG),1)
   $(info debug mode)
   CFLAGS?=-Wall -Wextra -O0 -g
@@ -26,11 +25,6 @@ else
   CFLAGS?=-Wall -Wextra -O3
   CXXFLAGS?=-Wall -Wextra -O3 --std=c++11
 endif
-
-=======
-CFLAGS?=-Wall -Wextra -O0 --std=c11
-CXXFLAGS?=-Wall -Wextra -O0 --std=c++11
->>>>>>> a1b5b38... Daemon mode - work in progress
 
 OBJS=packet.o \
 	 connection.o \
